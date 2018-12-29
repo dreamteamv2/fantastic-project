@@ -128,7 +128,6 @@ p {
   transition: all 1s ease-in-out; }
 
 .fixed {
-  border-bottom: 1px solid #636363;
   position: fixed;
   top: 0;
   left: 0;
@@ -164,7 +163,9 @@ p {
       min-height: 700px; } }
 
 .slider-result {
-  background: url(../../images/events.jpg) no-repeat;
+  background-image: url(../../images/events.jpg);
+  background-repeat: no-repeat;
+  background-size: auto;
   background-size: cover;
   min-height: 300px; }
   @media (max-width: 992px) {
@@ -189,10 +190,13 @@ p {
     color: #000; }
 
 .slider-title_box {
-  text-align: center; }
+  text-align: center;
+    background: #0000005c;
+    border-radius: 15px;
+    padding: 10px; }
 
 .slider-content_wrap h5 {
-  color: #909090;
+  color: #e8e4e4;
   font-weight: 400;
   margin: 24px 0; }
 

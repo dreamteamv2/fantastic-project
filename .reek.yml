@@ -1,4 +1,6 @@
 ---
-  # Directories and files below will not be scanned at all
+detectors:
+  IrresponsibleModule:
+    enabled: false
 exclude_paths:
-  - spec/fixtures/phq_api_script.rb
+  - spec/*

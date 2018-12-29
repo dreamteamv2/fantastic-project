@@ -1,19 +1,12 @@
 ---
 development:
-  DB_FILENAME: app/infrastructure/database/local/dev.db
-  COUNTRIES_FILE_PATH: app/infrastructure/local_files/json_files/countries.json
-  CATEGORIES_FILE_PATH: app/infrastructure/local_files/json_files/categories.json
-  IMAGE_PATH: app/presentations/views/assets/img/
+   API_HOST: http://localhost:9090
+   API_HOST: https://eventix-api.herokuapp.com/api/
+   API_VERSION: v1
+
 
 test:
-  DB_FILENAME: app/infrastructure/database/local/test.db
-  COUNTRIES_FILE_PATH: app/infrastructure/local_files/json_files/countries.json
-  CATEGORIES_FILE_PATH: app/infrastructure/local_files/json_files/categories.json
-  IMAGE_PATH: app/presentations/views/assets/img/
-  APP_HOST: http://localhost:9000
+  API_HOST: http://localhost:9090
 
 production:
-  DB_FILENAME: app/infrastructure/database/local/dev.db
-  COUNTRIES_FILE_PATH: app/infrastructure/local_files/json_files/countries.json
-  CATEGORIES_FILE_PATH: app/infrastructure/local_files/json_files/categories.json
-  IMAGE_PATH: app/presentations/views/assets/img/
+  API_HOST: https://eventix-api.herokuapp.com

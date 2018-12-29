@@ -24,7 +24,7 @@ module FantasticProject
     use Rack::MethodOverride
 
     # rubocop:disable Metrics/BlockLength
-    # rubocop:disable Style/BlockComments
+    # rubocop:disable Style/ConditionalAssignment
     route do |routing|
       routing.public
       routing.assets # load CSS
@@ -32,29 +32,20 @@ module FantasticProject
       # GET /
       routing.root do
         session[:watching] ||= []
-
-=begin
-     result = Service::EventList.new.call(session[:watching])
-
-        if result.failure?
-          flash[:error] = result.failure
-          view 'home', locals: { events: [] }
+        if session[:watching][0]
+          country = session[:watching][0][:country]
+        else
+          country = 'canada'
         end
-
-        #events = result.value!
-        flash.now[:notice] = 'Try to search Taiwan!' if events.none?
-
-     events_searched = Views::EventList.new(events)
-=end
-        view 'home', locals: { events: [] }
+        view 'home', locals: { country: country }
       end
 
       routing.on 'events' do
         routing.is do
           # POST /event/
           routing.post do
-            form_request = Forms::CountrySearch.call(routing.params)
-            search_info = Service::SearchCountry.new.call(form_request)
+            form_request = Forms::SearchEvents.call(routing.params)
+            search_info = Service::SearchEvents.new.call(form_request)
 
             if search_info.failure?
               flash[:error] = search_info.failure
@@ -69,9 +60,9 @@ module FantasticProject
 
             session[:watching].insert(0, cookie_data).uniq!
             category = search_info[:category]
-            country_code = search_info[:cdata].alpha2
+            country = search_info[:country]
 
-            res_url = "events/#{category}/#{country_code}"
+            res_url = "events/#{category}/#{country}"
             routing.redirect res_url
           end
         end
@@ -89,18 +80,22 @@ module FantasticProject
               category: path_request.category
             )
 
+            events = []
             if result.failure?
               flash[:error] = result.failure
               routing.redirect '/'
+            else
+              events = result.value!.events
+              if events.none?
+                flash.now[:notice] = 'No events with that parameters'
+                routing.redirect '/'
+              end
             end
 
-            events = result.value!
-            events_data = Views::EventList.new(
-              events
-            )
-
             # Show events
-            view 'events', locals: { events: events_data }
+            events = Views::EventsList.new(events)
+            view 'events', locals: { events: events, 
+                                     category: path_request.category }
           end
         end
       end
