@@ -101,6 +101,6 @@ module FantasticProject
       end
     end
     # rubocop:enable Metrics/BlockLength
-    # rubocop:enable Style/BlockComments
+    # rubocop:enable Style/ConditionalAssignment
   end
 end
