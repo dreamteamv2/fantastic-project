@@ -16,8 +16,7 @@ module FantasticProject
     plugin :render, engine: 'slim', views: 'app/presentation/views'
     plugin :assets, path: 'app/presentation/assets',
                     css: ['bootstrap.min.css', 'simple-line-icons.css',
-                          'themify-icons.css', 'set1.css', 'style.css'],
-                    js: ['jquery-3.2.1.min.js']
+                          'themify-icons.css', 'set1.css', 'style.css']
 
     plugin :public, root: './app/presentation/static'
 
@@ -64,6 +63,45 @@ module FantasticProject
 
             res_url = "events/#{category}/#{country}"
             routing.redirect res_url
+          end
+        end
+
+        routing.on Integer do |event_id|
+          # GET /events/{event_id}
+          routing.get do
+            result = Service::Event.new.call(
+              event_id: event_id,
+            )
+
+            if result.failure?
+              flash[:error] = result.failure
+              routing.redirect '/'
+            end
+
+            event_detail = OpenStruct.new(result.value!)
+
+
+            if !event_detail.response.processing?
+              event = event_detail.info.event
+              images = event_detail.info.images
+
+              if event.none?
+                flash.now[:notice] = 'No events with that parameters'
+                routing.redirect '/'
+              end
+
+              event = Views::Event.new(event)
+              images = Views::Images.new(images)
+            end
+
+            processing = Views::Processing.new(
+              App.config, event_detail.response
+            )
+
+            view 'event', locals: { event: event, images: images, 
+                                    url: App.config.S3_URL,
+                                    processing: processing }
+
           end
         end
 

@@ -24,19 +24,20 @@
               h3 Featured Events
 
         - events.each do |event|
-          .row
-            .col-md-12.featured-responsive.featured-place-wrap
-                .image.col-md-4.float-left
-                  img.img-fluid alt="#" src="/images/#{event.category}.jpg" /
-                .featured-title-box.col-md-8.float-left
-                  h6 #{event.title}
-                  p #{event.country}
-                  ul
-                    li
-                      span.icon-screen-smartphone
-                      p #{event.description}
-                    span.ti-heart
-                    span.ti-bookmark
+          a href = "/events/#{event.id}"
+            .row
+              .col-md-12.featured-responsive.featured-place-wrap
+                  .image.col-md-4.float-left
+                    img.img-fluid alt="#" src="/images/#{event.category}.jpg" /
+                  .featured-title-box.col-md-8.float-left
+                    h6 #{event.title}
+                    p #{event.country}
+                    ul
+                      li
+                        span.icon-screen-smartphone
+                        p #{event.description}
+                      span.ti-heart
+                      span.ti-bookmark
           
 
 

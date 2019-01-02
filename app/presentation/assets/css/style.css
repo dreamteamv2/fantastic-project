@@ -979,4 +979,20 @@ footer {
   padding: 20px
 }
 
+.center-image {
+  float: none;
+  margin: 0 auto;
+}
+
+.progress {
+  padding: 30px;
+  margin: 50px;
+  height: auto!important;
+}
+
+.progress-bar{
+  width: 100%;
+  padding: 30px;
+}
+
 /*# sourceMappingURL=style.css.map */

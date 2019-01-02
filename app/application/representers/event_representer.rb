@@ -6,7 +6,7 @@ require 'roar/json'
 # Represents essential Repo information for API output
 module FantasticProject
   module Representer
-    # Represent a Project entity as Json
+    # Represent a Event entity as Json
     class Event < Roar::Decorator
       include Roar::JSON
 

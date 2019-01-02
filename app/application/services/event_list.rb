@@ -17,12 +17,14 @@ module FantasticProject
         result = Gateway::Api.new(FantasticProject::App.config)
           .search_event(input[:category], input[:country])
         result.success? ? Success(result.payload) : Failure(result.message)
+      rescue StandardError
+        Failure('Cannot get events right now; please try again later')
       end
 
       def depresent_events(json_data)
         Representer::EventsList.new(OpenStruct.new)
           .from_json(json_data)
-          .yield_self { |events| Success(events) }
+          .yield_self { |event| Success(event) }
       rescue StandardError
         Failure('Could not parse response from API')
       end
